@@ -38,20 +38,21 @@ function App() {
 
   }
   async function companyUnlock(){
+    let api_unlock = 'http://api.gtech.site/companies/ecf_company_update';
     var cnpjFormated = cnpj.replace(/[^0-9]/g, '');
-    api = api.replace(':cnpj', cnpjFormated);
 
-
-    axios.post(api, {
-      is_blocked: true
-     
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+    axios.put(api_unlock, {
+      cnpj: cnpjFormated,
+      is_blocked: true,
+      lock_date: '2025-01-21',
+      manual:true
+      }, {
+        headers:{
+         authorization:'1ff08ec1c70458bb3040b49d7b483085'
+        }   
+      })
+      companySearch();
+    
   }
 
 
@@ -145,7 +146,7 @@ function App() {
 
         {
           empresa &&
-          <div className="animate-pulse col-span-2 sm:col-span-1">
+          <div className="animate-pulse delay-10s">
             <p className="font-medium text-gray-200 font-bold sm:text-3xl">Company Info.</p>
 
             <nav aria-label="Footer Navigation - Services" className="mt-6">
@@ -157,6 +158,7 @@ function App() {
                 </li>
 
                 <li>
+              
                   <a href="#" className="text-gray-300 transition hover:opacity-75">
                     CNPJ:  {empresa.cnpj}
                   </a>
